@@ -21,4 +21,3 @@ if [ "${dscount}" != "${olddscount}" ]
 then
     echo "Warning: number of DS-Record has changed!"
 fi
-    
