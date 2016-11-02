@@ -3,14 +3,14 @@
 # records in the parent zone. Issue a warning when the count or the
 # content changes
 
-oldds=$(cat $0.saved.dscontent)
-olddscount=$(cat $0.saved.dscount)
+oldds=$(cat $0.$1.saved.dscontent)
+olddscount=$(cat $0.$1.saved.dscount)
 
 ds=$(dig ${1} ds +short)
-echo "${ds}" > $0.saved.dscontent
+echo "${ds}" > $0.$1.saved.dscontent
 
 dscount=$(dig ${1} ds +short | wc -l)
-echo "${dscount}" > $0.saved.dscount
+echo "${dscount}" > $0.$1.saved.dscount
 
 if [ "${ds}" != "${oldds}" ]
 then
