@@ -15,9 +15,13 @@ echo "${dscount}" > $0.$1.saved.dscount
 if [ "${ds}" != "${oldds}" ]
 then
     echo "Warning: DS-Record has changed!"
+else
+    echo "OK: DS-Record is the same as last time tested!"
 fi
 
 if [ "${dscount}" != "${olddscount}" ]
 then
     echo "Warning: number of DS-Record has changed!"
+else
+    echo "OK: number of DS-Record is the same as last time tested!"
 fi
