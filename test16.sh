@@ -18,10 +18,10 @@ validated=0
     # add @resolver-ip-address-or-hostname to the below cmd
     out=$(delv +cdflag +nodnssec +nottl +noclass ${domain} ${rr});
     state=$(echo "${out}" | head -n1);
-    if [[ "${state}" == "; unsigned answer" ]]; then
+    if [ "${state}" = "; unsigned answer" ]; then
       printf "Unsigned record: ";
       unsigned=$((unsigned+1))
-    elif [[ "${state}" != "; fully validated" ]]; then
+    elif [ "${state}" != "; fully validated" ]; then
       printf "Errornous record: ";
       errornous=$((errornous+1))
     else
