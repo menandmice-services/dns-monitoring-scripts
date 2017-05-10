@@ -6,6 +6,10 @@
 # you're starting this script from
 AUTHORITATIVE=""
 
+if [ "$AUTHORITATIVE" = "" ]; then
+  AUTHORITATIVE=$(dig +short ${1} SOA | cut -d' ' -f1)
+fi
+
 unsigned=0
 errornous=0
 validated=0
