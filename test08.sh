@@ -7,6 +7,7 @@
 # warning if the same SOA difference is seen in two successive tests
 # is the same SOA difference seen after three or more tests, an event
 # of severity ERROR should be generated
+echo " == #8 - SOA serial == "
 
 oldsoaserial="0"
 dig ${1} +nssearch | while read serverres; do

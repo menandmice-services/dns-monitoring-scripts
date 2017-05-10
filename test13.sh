@@ -2,6 +2,7 @@
 # Test 13 - DS Records - test the number and the content of the DS
 # records in the parent zone. Issue a warning when the count or the
 # content changes
+echo " == #13 - DS Records == "
 
 oldds=$(cat $0.$1.saved.dscontent)
 olddscount=$(cat $0.$1.saved.dscount)

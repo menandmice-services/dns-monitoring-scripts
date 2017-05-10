@@ -2,6 +2,7 @@
 # Test 6 - test that all authoritative server for a zone
 # respond on IPv4. Count is tested against the number of
 # delegation authoritative servers for the zone.
+echo " == #6 - IPv4 zone response tests == "
 
 # get TLD for the zone
 tld=$(echo ${1} | rev | cut -d'.' -f 1 | rev)

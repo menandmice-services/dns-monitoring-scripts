@@ -1,5 +1,6 @@
 #!/bin/sh
 # Test 16 validates all records of a given domain using delv.
+echo " == #16 - Delv zone validation == "
 
 # Enter the IP of your authoritative nameserver
 # zone transfers needs to be allowed for the system

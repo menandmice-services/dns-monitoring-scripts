@@ -1,6 +1,7 @@
 #!/bin/sh
 # Test 10 - test for Parent-Child NS-RRset. Tests that the NS-RRset in
 # the parent zone (delegation) matches the NS-RRset in the zone data.
+echo " == #10 - test for Parent-Child NS-RRset == "
 
 # get one authoritative server for the zone
 child_dns=$(dig ns ${1} +short | tail -1)

@@ -2,6 +2,7 @@
 # Test 5 - EDNS0 response size: tests that the server signals the
 # correct EDNS0 response size. Size needs to be checked against the
 # local policy. Usually 1220-1232 bytes.
+echo " == #5 - EDNS0 response size == "
 ednspolicy=1232
 dig ns ${1} +short | while read server; do
     echo "Server: ${server} "

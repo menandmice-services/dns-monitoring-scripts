@@ -1,6 +1,7 @@
 #!/bin/sh
 # Test 15 Count of DNSKEY records in the zone. The number can change
 # during a key-rollover. Any change should create an WARNING event
+echo " == #15 - DNSKEY record count == "
 
 olddnskeycount=$(cat $0.$1.saved.dnskeycount)
 

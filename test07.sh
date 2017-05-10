@@ -1,7 +1,8 @@
 #!/bin/sh
-# Test 6 - test that all authoritative server for a zone respond on
+# Test 7 - test that all authoritative server for a zone respond on
 # TCP/IPv4. Count is tested against the number of delegation
 # authoritative servers for the zone.
+echo " == #7 - IPv4 (TCP) zone response tests == "
 
 # get TLD for the zone
 tld=$(echo ${1} | rev | cut -d'.' -f 1 | rev)
