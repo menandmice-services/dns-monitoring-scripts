@@ -14,7 +14,14 @@ unsigned=0
 errornous=0
 validated=0
 
-(dig -t axfr -q ${1} @${AUTHORITATIVE} | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
+ZONEDATA=$(dig -t axfr -q ${1} @${AUTHORITATIVE})
+
+if echo "${ZONEDATA}" | grep -q "Transfer failed"; then
+  echo "Zone transfers disabled; Exiting..."
+  exit 1
+fi
+
+(echo "${ZONEDATA}" | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
 {    while read -r domain rr; do
     # mind that this will use your local resolver; so you
     # need to make sure there are only dnssec-capable
