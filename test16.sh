@@ -6,11 +6,22 @@
 # you're starting this script from
 AUTHORITATIVE=""
 
+if [ "$AUTHORITATIVE" = "" ]; then
+  AUTHORITATIVE=$(dig +short ${1} SOA | cut -d' ' -f1)
+fi
+
 unsigned=0
 errornous=0
 validated=0
 
-(dig -t axfr -q ${1} @${AUTHORITATIVE} | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
+ZONEDATA=$(dig -t axfr -q ${1} @${AUTHORITATIVE})
+
+if echo "${ZONEDATA}" | grep -q "Transfer failed"; then
+  echo "Zone transfers disabled; Exiting..."
+  exit 1
+fi
+
+(echo "${ZONEDATA}" | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
 {    while read -r domain rr; do
     # mind that this will use your local resolver; so you
     # need to make sure there are only dnssec-capable
@@ -18,10 +29,10 @@ validated=0
     # add @resolver-ip-address-or-hostname to the below cmd
     out=$(delv +cdflag +nodnssec +nottl +noclass ${domain} ${rr});
     state=$(echo "${out}" | head -n1);
-    if [[ "${state}" == "; unsigned answer" ]]; then
+    if [ "${state}" = "; unsigned answer" ]; then
       printf "Unsigned record: ";
       unsigned=$((unsigned+1))
-    elif [[ "${state}" != "; fully validated" ]]; then
+    elif [ "${state}" != "; fully validated" ]; then
       printf "Errornous record: ";
       errornous=$((errornous+1))
     else
