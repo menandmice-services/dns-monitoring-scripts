@@ -1,6 +1,7 @@
 #!/bin/sh
 # Test 3 - TCPv4 reachability - test for each authoritative server of
 # the DNS infrastructure
+echo " == #3 - TCPv4 reachability == "
 dig ns ${1} +short | while read server; do
    ipaddr=$(dig ${server} a +short)
    echo "Server: ${server} (${ipaddr})"

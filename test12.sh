@@ -2,6 +2,8 @@
 # Test 12 - RRSIG validity: check for the lifetime timestamps of
 # RRSIGs in the zone. This test should be done for every important
 # RRset in the zone (SOA, DNSKEY, MX, A/AAAA)
+echo " == #12 - RRSIG validity == "
+
 today=$(date "+%Y%m%d%H%M%S")
 inception=$(dig ${1} soa +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 6)
 expiry=$(dig ${1} soa +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 5)

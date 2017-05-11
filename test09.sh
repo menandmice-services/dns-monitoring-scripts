@@ -1,6 +1,7 @@
 #!/bin/sh
 # Test 9 - test for AA-Flag. Repeat this test for each authoritative
 # server for the zone. Each server must respond with an AA-Flag
+echo " == #9 - AA-Flag == "
 
 dig ns ${1} +short | while read server; do
     echo "Server: ${server} "
