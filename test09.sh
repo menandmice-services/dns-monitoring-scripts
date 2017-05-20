@@ -6,7 +6,7 @@ echo " == #9 - AA-Flag == "
 dig ns ${1} +short | while read server; do
     echo "Server: ${server} "
     aaflag=$(dig  @${server} ${1} soa +norec | grep ";; flags" | cut -d " " -f 4 | cut -b 1-2)
-    if [ "${aaflag}" == "aa" ]
+    if [ "${aaflag}" = "aa" ]
     then
 	echo " AA-Flag found, good "
     else
