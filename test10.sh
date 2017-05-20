@@ -10,7 +10,7 @@ tld=$(echo ${1} | rev | cut -d'.' -f 1 | rev)
 # get one authoritative server for the TLD
 tldns=$(dig ns ${tld}. +short | tail -1)
 # query the delegation records
-parns=$(dig @${tldns} ns ${1}  +norec +noall +authority | grep "IN\tNS" | sort)
+parns=$(dig @${tldns} ns ${1}  +norec +noall +authority | grep "IN.*NS" | sort)
 while read nsrec; do
     ns=$(echo ${nsrec} | cut -d ' ' -f 5)
     parentns="${parentns} ${ns}"
@@ -27,7 +27,7 @@ echo ${parentns}
 echo "Child zonedata:"
 echo ${childns}
 
-if [ "${childns}" == "${parentns}" ]; then
+if [ "${childns}" = "${parentns}" ]; then
     echo "Parent/Child NS-RRSet matches"
 else
     echo "Parent/Child NS-RRSet mismatch"
