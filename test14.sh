@@ -3,6 +3,11 @@
 # KSK in the zone. The two values (Key-ID) must match.
 echo " == #14 - DS Records and KSK == "
 
+if [ "$1" = "" ]; then
+  echo "This test fails without param. Exiting..."
+  exit 1
+fi
+
 dskeyid=$(dig ${1} ds +short +cd | cut -d " " -f 1 | tail -1)
 rrsigkeyid=$(dig ${1} dnskey +dnssec +short +cd | egrep "^DNSKEY" | grep "${dskeyid}" | cut -d ' ' -f 7)
 

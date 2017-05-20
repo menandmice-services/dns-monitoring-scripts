@@ -3,6 +3,11 @@
 # the parent zone (delegation) matches the NS-RRset in the zone data.
 echo " == #10 - test for Parent-Child NS-RRset == "
 
+if [ "$1" = "" ]; then
+  echo "This test fails without param. Exiting..."
+  exit 1
+fi
+
 # get one authoritative server for the zone
 child_dns=$(dig ns ${1} +short | tail -1)
 # get TLD of Domain
