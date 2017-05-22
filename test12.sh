@@ -4,6 +4,11 @@
 # RRset in the zone (SOA, DNSKEY, MX, A/AAAA)
 echo " == #12 - RRSIG validity == "
 
+if [ "$1" = "" ]; then
+  echo "This test fails without param. Exiting..."
+  exit 1
+fi
+
 today=$(date "+%Y%m%d%H%M%S")
 inception=$(dig ${1} soa +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 6)
 expiry=$(dig ${1} soa +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 5)
