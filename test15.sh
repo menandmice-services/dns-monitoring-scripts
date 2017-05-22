@@ -3,7 +3,11 @@
 # during a key-rollover. Any change should create an WARNING event
 echo " == #15 - DNSKEY record count == "
 
-olddnskeycount=$(cat $0.$1.saved.dnskeycount)
+if [ -f "$0.$1.saved.dnskeycount" ]; then
+  olddnskeycount=$(cat $0.$1.saved.dnskeycount)
+else
+  echo "First run. This result won't be meaningful until the next run.";
+fi
 
 dnskeycount=$(dig ${1} dnskey +cd +dnssec | egrep "DNSKEY.*2" | grep -v "RRSIG" | wc -l)
 echo "${dnskeycount}" > $0.$1.saved.dnskeycount

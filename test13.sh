@@ -4,8 +4,12 @@
 # content changes
 echo " == #13 - DS Records == "
 
-oldds=$(cat $0.$1.saved.dscontent)
-olddscount=$(cat $0.$1.saved.dscount)
+if [ -f "$0.$1.saved.dscontent" ]; then
+  oldds=$(cat $0.$1.saved.dscontent)
+  olddscount=$(cat $0.$1.saved.dscount)
+else
+  echo "First run. This result won't be meaningful until the next run.";
+fi
 
 ds=$(dig ${1} ds +short)
 echo "${ds}" > $0.$1.saved.dscontent
