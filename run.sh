@@ -15,5 +15,5 @@ if ! type "delv" >/dev/null; then
 fi
 
 for script in test*.sh; do
-  ./${script} ${1}
+  sh ./${script} ${1}
 done
