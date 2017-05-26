@@ -58,6 +58,6 @@ case ${algorithm} in
     exit 1
     ;;
 esac
-echo -n "${out}"
+echo "${out}"
 
 exit ${err}
