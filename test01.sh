@@ -21,4 +21,3 @@ dig NS ${1} +short | while read server; do
     echo "OK"
   fi
 done
-
