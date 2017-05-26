@@ -28,6 +28,9 @@ for script in test*.sh; do
 done
 
 if [ "${err}" != 0 ]; then
-  echo "The following scripts failed: ${failed}..."
+  echo " ----------------- "
+  echo "The following scripts failed:"
+  echo "${failed}..."
+  echo " ----------------- "
   exit ${err}
 fi
