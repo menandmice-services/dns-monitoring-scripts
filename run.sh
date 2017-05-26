@@ -18,16 +18,16 @@ if ! type "delv" >/dev/null; then
 fi
 
 for script in test*.sh; do
-  sh ./${script} ${1}
+  sh ./${script} "${1}"
   rc=$?
 
-  if [ ${rc} != 0 ]; then
+  if [ "${rc}" != 0 ]; then
     err=1
     failed="${failed} ${script}"
   fi
 done
 
-if [ "$err" != 0 ]; then
+if [ "${err}" != 0 ]; then
   echo "The following scripts failed: ${failed}..."
   exit ${err}
 fi
