@@ -12,6 +12,7 @@ if [ "$1" = "" ]; then
   exit 1
 fi
 
+err=0
 # get one authoritative server for the zone
 child_dns=$(dig NS ${1} +short | tail -1)
 # get TLD of Domain
@@ -40,5 +41,8 @@ echo ${childns}
 if [ "${childns}" = "${parentns}" ]; then
   echo "Parent/Child NS-RRSet matches"
 else
+  err=1
   echo "Parent/Child NS-RRSet mismatch"
 fi
+
+exit ${err}
