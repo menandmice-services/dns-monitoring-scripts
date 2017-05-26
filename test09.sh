@@ -7,6 +7,8 @@
 
 echo " == #9 - AA-Flag == "
 
+err=0
+
 dig NS ${1} +short | while read server; do
   echo "Server: ${server} "
   aaflag=$(dig @${server} ${1} SOA +norec | grep ";; flags" | cut -d " " -f 4 | cut -b 1-2)
@@ -14,6 +16,9 @@ dig NS ${1} +short | while read server; do
   if [ "${aaflag}" = "aa" ]; then
     echo " AA-Flag found, good "
   else
+    err=1
     echo " no AA-Flag, Server not authoritative "
   fi
 done
+
+exit ${err}
