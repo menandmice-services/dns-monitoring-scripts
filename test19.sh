@@ -28,7 +28,7 @@ case ${algorithm} in
         out=" Good, secure algorithm RSA/SHA512 in use "
         ;;
       "12")
-        out=" Good, secure algorithm GOST R 34. 10-2001 (ECC-GHOST) in use "
+        out=" Bad, insecure algorithm GOST R 34. 10-2001 (ECC-GHOST) in use "
         ;;
       "13")
         out=" Good, secure algorithm ECDSA Curve P-256 with SHA-256 (ECDSAP256SHA256) in use "
