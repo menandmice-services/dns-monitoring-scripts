@@ -8,10 +8,10 @@
 echo " == #3 - TCPv4 reachability == "
 
 dig NS ${1} +short | while read server; do
-  ipaddr=$(dig ${server} a +short)
+  ipaddr=$(dig ${server} A +short)
 
   echo "Server: ${server} (${ipaddr})"
-  soarec=$(dig -4  @${server} ${1} soa +cd +tcp)
+  soarec=$(dig -4 @${server} ${1} SOA +cd +tcp)
   rc=$?
 
   if [ ${rc} != 0 ]; then
