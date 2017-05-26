@@ -8,6 +8,7 @@
 
 echo " == #6 - IPv4 zone response tests == "
 
+err=0
 # get TLD for the zone
 tld=$(echo ${1} | rev | cut -d'.' -f 1 | rev)
 # pick one TLD auth server
@@ -20,7 +21,10 @@ childnsnum=$(dig -4 ${1} +nssearch | wc -l)
 if [ "${parentnsnum}" -eq "${childnsnum}" ]; then
   echo "all authoritative DNS-Server answer"
 else
+  err=1
   echo "Error: Mismatch"
   echo "Auth DNS-Servers in Delegation: ${parentnsnum}"
   echo "Auth DNS-Servers in answering: ${childnsnum}"
 fi
+
+exit ${err}
