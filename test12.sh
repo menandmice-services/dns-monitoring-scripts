@@ -13,6 +13,7 @@ if [ "$1" = "" ]; then
   exit 1
 fi
 
+err=0
 today=$(date "+%Y%m%d%H%M%S")
 inception=$(dig ${1} SOA +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 6)
 expiry=$(dig ${1} SOA +cd +dnssec | egrep "RRSIG.*SOA" | cut -d " " -f 5)
@@ -22,10 +23,12 @@ echo "Inception: ${inception}"
 echo "Expiry   : ${expiry}"
 
 if [ "${inception}" -gt "${today}" ]; then
+  err=1
   echo "ERROR: RRSIG validity (${inception}) is in the future"
 fi
 
 if [ "${expiry}" -lt "${today}" ]; then
+  err=1
   echo "ERROR: RRSIG validity (${expiry}) is in the past, DNSSEC signature has expired"
 fi
 
@@ -34,6 +37,7 @@ twodaysahead=$((${twodaysahead}+172800))
 twodaysahead=$(date -u --date="@${twodaysahead}" "+%Y%m%d%H%M%S")
 
 if [ "${expiry}" -lt "${twodaysahead}" ]; then
+  err=1
   echo "ERROR: RRSIG validity (${expiry}) will end in less than two days"
 fi
 
@@ -42,5 +46,8 @@ fivedaysahead=$((${fivedaysahead}+432000))
 fivedaysahead=$(date -u --date="@${fivedaysahead}" "+%Y%m%d%H%M%S")
 
 if [ "${expiry}" -lt "${fivedaysahead}" ]; then
+  err=1
   echo "WARNING: RRSIG validity (${expiry}) will end in less than five days"
 fi
+
+exit ${err}

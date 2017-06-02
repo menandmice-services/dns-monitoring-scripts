@@ -7,6 +7,8 @@
 
 echo " == #1 - UDPv4 reachability == "
 
+err=0
+
 dig NS ${1} +short | while read server; do
   ipaddr=$(dig ${server} A +short)
 
@@ -15,9 +17,11 @@ dig NS ${1} +short | while read server; do
   rc=$?
 
   if [ ${rc} != 0 ]; then
+    err=1
     echo "Error while sending UDPv4 query to ${server}"
-    exit ${rc};
   else
     echo "OK"
   fi
 done
+
+exit ${err}

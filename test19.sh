@@ -7,21 +7,28 @@
 
 echo " == #19 - DNSSEC algorithm check == "
 
+err=0
 algorithm=$(dig DS ${1} +short | awk '{print $2}');
+
 case ${algorithm} in
   1)
+    err=1
     out=" Bad, deprecated algorithm RSA/MD5 in use "
     ;;
   3)
+    err=1
     out=" Bad, insecure algorithm DSA/SHA1 in use "
     ;;
   5)
+    err=1
     out=" Bad, insecure algorithm RSA/SHA-1 in use "
     ;;
   6)
+    err=1
     out=" Bad, insecure algorithm DSA-NSEC3-SHA1 in use "
     ;;
   7)
+    err=1
     out=" Bad, insecure algorithm RSASHA1-NSEC3-SHA1 in use "
     ;;
   8)
@@ -31,6 +38,7 @@ case ${algorithm} in
     out=" Good, secure algorithm RSA/SHA512 in use "
     ;;
   12)
+    err=1
     out=" Bad, insecure algorithm GOST R 34. 10-2001 (ECC-GHOST) in use "
     ;;
   13)
@@ -50,4 +58,6 @@ case ${algorithm} in
     exit 1
     ;;
 esac
-echo -n "${out}"
+echo "${out}"
+
+exit ${err}

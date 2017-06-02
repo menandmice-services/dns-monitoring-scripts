@@ -15,16 +15,17 @@ if [ "$AUTHORITATIVE" = "" ]; then
   AUTHORITATIVE=$(dig +short ${1} SOA | cut -d' ' -f1)
 fi
 
-unsigned=0
-errornous=0
-validated=0
-
 ZONEDATA=$(dig -t axfr -q ${1} @${AUTHORITATIVE})
 
 if echo "${ZONEDATA}" | grep -q "Transfer failed"; then
   echo "Zone transfers disabled; Exiting..."
   exit 1
 fi
+
+err=0
+unsigned=0
+errornous=0
+validated=0
 
 (echo "${ZONEDATA}" | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
 { while read -r domain rr; do
@@ -38,6 +39,7 @@ fi
       printf "Unsigned record: ";
       unsigned=$((unsigned+1))
     elif [ "${state}" != "; fully validated" ]; then
+      err=1
       printf "Errornous record: ";
       errornous=$((errornous+1))
     else
@@ -49,3 +51,5 @@ fi
 
   echo "validated/unsigned/errors: $validated/$unsigned/$errornous";
 }
+
+exit ${err}
