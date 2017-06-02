@@ -1,5 +1,9 @@
 #!/bin/sh
+
+#
 # Test 16 validates all records of a given domain using delv.
+#
+
 echo " == #16 - Delv zone validation == "
 
 # Enter the IP of your authoritative nameserver
@@ -23,7 +27,7 @@ if echo "${ZONEDATA}" | grep -q "Transfer failed"; then
 fi
 
 (echo "${ZONEDATA}" | grep -v "NSEC\|RRSIG\|DNSKEY\|^;\|^$" | awk '{ print $1,$4 }' | sort -u) |
-{    while read -r domain rr; do
+{ while read -r domain rr; do
     # mind that this will use your local resolver; so you
     # need to make sure there are only dnssec-capable
     # resolvers in your /etc/resolv.conf. Alternatively
@@ -41,7 +45,7 @@ fi
       validated=$((validated+1))
     fi
     echo "$domain ($rr)";
-done
+  done
 
-echo "validated/unsigned/errors: $validated/$unsigned/$errornous";
+  echo "validated/unsigned/errors: $validated/$unsigned/$errornous";
 }
