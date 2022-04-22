@@ -8,14 +8,14 @@
 echo " == #14 - DS Records and KSK == "
 
 if [ "$1" = "" ]; then
-  echo "This test fails without param. Exiting..."
+  echo "This test fails without domain param. Exiting..."
   exit 1
 fi
 
 err=0
 
-dskeyid=$(dig ${1} DS +short +cd | cut -d " " -f 1 | tail -1)
-rrsigkeyid=$(dig ${1} DNSKEY +dnssec +short +cd | egrep "^DNSKEY" | grep "${dskeyid}" | cut -d ' ' -f 7)
+dskeyid=$(dig ${1} DS +short +cd +nocookie | cut -d " " -f 1 | tail -1)
+rrsigkeyid=$(dig ${1} DNSKEY +dnssec +short +cd +nocookie | egrep "^DNSKEY" | grep "${dskeyid}" | cut -d ' ' -f 7)
 
 if [ "${dskeyid}" != "${rrsigkeyid}" ]; then
   err=1

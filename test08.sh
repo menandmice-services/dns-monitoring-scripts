@@ -16,9 +16,7 @@ echo " == #8 - SOA serial == "
 err=0
 oldsoaserial="0"
 
-dig ${1} +nssearch | while read serverres; do
-  soaserial=$(echo ${serverres} | cut -d ' ' -f 4)
-
+while read soa mname rname soaserial rest; do
   if [ "${oldsoaserial}" -eq "0" ]; then
     oldsoaserial=${soaserial}
   else
@@ -29,6 +27,6 @@ dig ${1} +nssearch | while read serverres; do
       echo "Mismatch for ${soaserial} != ${oldsoaserial}"
     fi
   fi
-done
+done <<< "$(dig $1 +nssearch +nocookie)"
 
 exit ${err}
