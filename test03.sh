@@ -9,7 +9,7 @@ echo " == #3 - TCPv4 reachability == "
 
 err=0
 
-dig NS ${1} +short | while read server; do
+while read server; do
   ipaddr=$(dig ${server} A +short)
 
   echo "Server: ${server} (${ipaddr})"
@@ -22,6 +22,6 @@ dig NS ${1} +short | while read server; do
   else
     echo "OK"
   fi
-done
+done <<< "$(dig NS $1 +short +nocookie)"
 
 exit ${err}

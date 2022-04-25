@@ -14,15 +14,15 @@ else
 fi
 
 err=0
-dnskeycount=$(dig ${1} DNSKEY +cd +dnssec | egrep "DNSKEY.*2" | grep -v "RRSIG" | wc -l)
+dnskeycount=$(dig ${1} DNSKEY +cd +dnssec +nocookie | egrep "DNSKEY.*2" | grep -v "RRSIG" | wc -l)
 
 echo "${dnskeycount}" > $0.$1.saved.dnskeycount
 
 if [ "${dnskeycount}" != "${olddnskeycount}" ]; then
   err=1
-  echo "Warning: Number of DNSKEY-Record has changed!"
+  echo "Warning: Number of DNSKEY-Records has changed!"
 else
-  echo "OK: Number of DNSKEY-Record is the same as with last test!"
+  echo "OK: Number of DNSKEY-Records is the same as with last test."
 fi
 
 exit ${err}

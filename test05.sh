@@ -11,16 +11,16 @@ echo " == #5 - EDNS0 response size == "
 err=0
 ednspolicy=1232
 
-dig NS ${1} +short | while read server; do
-  echo "Server: ${server} "
+while read server; do
+  printf "Server: ${server} "
   ednsbuf=$(dig @${server} ${1} | grep "; EDNS:" | cut -d " " -f 7)
 
   if [ "${ednsbuf}" -eq "${ednspolicy}" ]; then
-    echo " EDNS0-Bufsize is ${ednsbuf}, good "
+    printf " EDNS0-Bufsize is ${ednsbuf}, good\n"
   else
     err=1
-    echo " EDNS0-Bufsize is ${ednsbuf}, out of policy range "
+    printf " EDNS0-Bufsize is ${ednsbuf}, out of policy range\n"
   fi
-done
+done <<< "$(dig +short NS $1)"
 
 exit ${err}

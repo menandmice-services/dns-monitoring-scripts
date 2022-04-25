@@ -9,16 +9,16 @@ echo " == #18 - NSEC3 check == "
 
 err=0
 
-dig NS ${1} +short | while read server; do
-  echo "Server: ${server} "
-  val=$(dig NSEC3PARAM ${1} @${server} +short);
+while read server; do
+  printf "Server: ${server} "
+  val=$(dig NSEC3PARAM ${1} @${server} +short +nocookie);
 
   if [ "${val}" != "" ]; then
-    echo " NSEC3 enabled, good "
+    printf " NSEC3 enabled, good\n"
   else
     err=1
-    echo " NSEC3 not available "
+    printf " NSEC3 not available\n"
   fi
-done
+done <<< "$(dig NS $1 +short +nocookie)"
 
 exit ${err}
